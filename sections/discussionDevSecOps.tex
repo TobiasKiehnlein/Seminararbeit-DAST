@@ -11,6 +11,8 @@ Diese sind chronologisch so angeordnet, wie sie auch im finalen Prozess vorhande
 
 \subsection{Git Struktur/Branching}
 
+Bevor eine Betrachtung der einzelnen Schritte im Prozess stattfinden kann, muss zunächst die Grundstruktur des Versionskontrollsystems (VCS) geklärt sein.
+In diesem Seminar wurde als VCS GitLab (git) verwendet, weshalb dieses auch hier als Grundlage dienen soll.
 Wenn es um das Thema Struktur im git geht, entstehen häufig hitzige Diskussionen unter Entwicklern.
 Die Menge an möglichen Modellen ist scheinbar endlos.
 In der Vergangenheit hat sich oft gezeigt, dass git-flow\cite{SuccessfulGitBranching} eine gute Möglichkeit ist, um sein git zu ordnen.
@@ -52,12 +54,67 @@ Alle Vorteile von GitHub Flow gegenüber git-flow bleiben allerdings erhalten, w
 
 \subsection{Coding Guidelines/Code Architecture}\label{subsec:codingGuidelines/codeArchitecture}
 
-Beginnen sollte man hier mit den Syntax- und Architekturtests.
-Bevor die Funktionalität einer Software getestet wird, sollte man immer sicherstellen, dass die Architektur und Syntax den gewählten Konventionen entspricht.
-Für die Bewertung der Position eines Schrittes in einer Pipeline gibt es mehrere ausschlaggebenden Punkte.
-Wichtig sind aber vor allem, die Abhängigkeit zu anderen Schritten, sowie die Zeitkomplexität die mit dem Job einhergeht.
-Nun wird auch schnell offensichtlich, warum dieser Schritt zu Beginn der Pipeline angeordnet sein sollte.
-Es bestehen keine Abhängigkeiten zu anderen Jobs, weshalb dies problemfrei zu Beginn der Pipeline ausgeführt werden kann.
-Außerdem sind Syntax- und Architekturtests in relativ kurzer Zeit auszuführen.
-Dies ist erstrebenswert, da die Pipeline möglichst früh fehlschlagen sollte, wenn Fehler existieren, um unnötige Verzögerungen im Entwicklungsprozess zu vermeiden.
-Zudem lassen sich Syntaxfehler zumeist schnell beheben, um die nächsten Schritte in der Pipeline erreichen zu können.
+Nachdem nun klar ist, in welcher Struktur der Code im VCS vorzufinden ist, gilt es nun die einzelnen Schritte in der Pipeline zu betrachten.
+Hierbei sollte mit den Syntax- und Architekturtests begonnen werden.
+Bevor die Funktionalität einer Software getestet wird, sollte immer sichergestellt sein, dass die Architektur und Syntax den gewählten Konventionen entspricht.
+Für die Bewertung der Position eines Schrittes in einer Pipeline gibt es mehrere ausschlaggebenden Punkte, welche bei jedem Job in der Pipeline betrachtet werden sollten.
+\begin{itemize}
+    \item Welche Abhängigkeiten existieren zu anderen Schritten?
+    \item Wie hoch ist die Zeitkomplexität des Jobs?
+    \item Wann muss dieser Job ausgeführt werden?
+\end{itemize}
+
+\subsubsection{Welche Abhängigkeiten existieren zu anderen Schritten?}
+
+Bei der Betrachtung der Abhängigkeiten zu anderen Schritten liegt auf der Hand, dass nichts außer dem Source Code nötig ist, um dessen Qualität zu testen.
+Somit gibt es keine anderen Jobs, welche vor diesem Job auszuführen sind.
+Dies ist auch der Grund, weshalb dieser Schritt zu Beginn der Pipeline angeordnet sein sollte.
+
+Da auch keine anderen Tests Abhängigkeiten zu Architektur- und Syntaxtests haben lassen sich diese auch problemfrei zu anderen Tests parallelisieren.
+
+\subsubsection{Wie hoch ist die Zeitkomplexität des Jobs?}
+
+Syntax- und Architekturtests sind in relativ kurzer Zeit auszuführen, da keine externen Abhängigkeiten oder komplexe Build Prozesse nötig sind.
+Dies ist speziell in den ersten Jobs äußerst erstrebenswert, da die Pipeline möglichst früh fehlschlagen sollte, wenn Fehler existieren, um unnötige Verzögerungen im Entwicklungsprozess zu vermeiden.
+Zudem ist auch die Behebung von Syntaxfehlern zumeist relativ schnell erledigt, sodass zügig die weiteren Schritte der Pipeline erreicht werden können.
+
+\subsubsection{Wann muss dieser Job ausgeführt werden?}
+
+Bei dieser Frage ist die Zeitkomplexität oftmals ein großer Faktor.
+Tests, die kaum Zeit in Anspruch nehmen kann man ohne große Einschränkungen häufiger ausführen.
+Dementsprechend empfiehlt es sich hier, die Tests bei jedem commit auszuführen, um stets eine gute Codequalität gewährleisten zu können und bereits früh im Prozess korrigieren zu können, falls die Architektur nicht den gesetzten Standards entspricht.
+
+\subsection{Vulnerability Checker}
+\subsubsection{Welche Abhängigkeiten existieren zu anderen Schritten?}
+\subsubsection{Wie hoch ist die Zeitkomplexität des Jobs?}
+\subsubsection{Wann muss dieser Job ausgeführt werden?}
+
+\subsection{Test-/Codeabdeckung}
+\subsubsection{Welche Abhängigkeiten existieren zu anderen Schritten?}
+\subsubsection{Wie hoch ist die Zeitkomplexität des Jobs?}
+\subsubsection{Wann muss dieser Job ausgeführt werden?}
+
+\subsection{Lizenzüberprüfung}
+\subsubsection{Welche Abhängigkeiten existieren zu anderen Schritten?}
+\subsubsection{Wie hoch ist die Zeitkomplexität des Jobs?}
+\subsubsection{Wann muss dieser Job ausgeführt werden?}
+
+\subsection{Repository Manager}
+\subsubsection{Welche Abhängigkeiten existieren zu anderen Schritten?}
+\subsubsection{Wie hoch ist die Zeitkomplexität des Jobs?}
+\subsubsection{Wann muss dieser Job ausgeführt werden?}
+
+\subsection{Dynamic Application Security Testing (DAST)}
+\subsubsection{Welche Abhängigkeiten existieren zu anderen Schritten?}
+\subsubsection{Wie hoch ist die Zeitkomplexität des Jobs?}
+\subsubsection{Wann muss dieser Job ausgeführt werden?}
+
+\subsection{Code Review}
+\subsubsection{Welche Abhängigkeiten existieren zu anderen Schritten?}
+\subsubsection{Wie hoch ist die Zeitkomplexität des Jobs?}
+\subsubsection{Wann muss dieser Job ausgeführt werden?}
+
+\subsection{Application Monitoring}
+\subsubsection{Welche Abhängigkeiten existieren zu anderen Schritten?}
+\subsubsection{Wie hoch ist die Zeitkomplexität des Jobs?}
+\subsubsection{Wann muss dieser Job ausgeführt werden?}
