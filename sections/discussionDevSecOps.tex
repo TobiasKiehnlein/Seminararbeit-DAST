@@ -1,13 +1,30 @@
 \section{Analyse eines optimalen DevSecOps Prozesses}\label{sec:analysisDevSecOps}
+Was ist DevSecOps?
 Warum benötigt man DevSecOps?
 Wie sollte DevSecOps aussehen?
 Was muss man beachten?
 
-Zur Beantwortung dieser Fragen sollte man sich zunächst anschauen, wie ein DevSecOps Prozess am besten gegliedert ist und ihn dann in seinen einzelnen Teilen zu betrachten.
-Grundsätzlich lassen sich Pipelines in drei Bereiche unterteilen: Testen, Bauen und Deployen.
-Allerdings lassen sich diese Schritte nicht immer einfach nacheinander ausführen, da Schritte im Test zum Beispiel von einem Build oder Deployment abhängen können, genauso wie ein Deployment von einem Test und offensichtlich einem Build abhängen kann.
-Daher wird in der Arbeit im Folgenden immer ein kleiner Schritt in der Pipeline beschrieben.
-Diese sind chronologisch so angeordnet, wie sie auch im finalen Prozess vorhanden sein sollten.
+Diese Fragen sollen in der folgenden Analyse Schritt für Schritt beantwortet werden und bilden die Basis für das grundlegende Verständnis von DevSecOps Prozessen.
+
+\subsection{DevOps}
+Die Frage, was DevOps eigentlich sei, ist etymologisch schnell beantwortet.
+DevOps ist ein Kofferwort aus den Komponenten "Development" und "Operations".
+Die Bedeutung dieses Begriffs hingegen stellt sich als weit weniger eindeutig heraus.
+Die Antwort auf die Frage nach der Bedeutung ist vielmehr ein Verständnis für ein Ziel, welches versucht wird zu erreichen, eine Philosophie Prozesse zu optimieren und ein "Ansatz, wie die Zusammenarbeit zwischen Softwareentwicklung und IT-Betrieb verbessert werden kann."\cite{DevOps2021}
+
+Microsoft Azure, einer der führenden Betreiber im DevOps Segment, beschreibt in einem Blogpost diese Philosophie als eine Art Brücke zwischen IT-Betrieb, Qualitätstechnik und Sicherheit\cite{WasIstDevOps}:
+\blockquote{DevOps ermöglicht es zuvor getrennten Rollen wie Entwicklung, IT-Betrieb, Qualitätstechnik und Sicherheit, sich zu koordinieren und zusammenarbeiten, um bessere und zuverlässigere Produkte zu liefern. Durch die Einführung der DevOps-Kultur mit DevOps-Methoden und -Tools können Teams besser auf die Anforderungen ihrer Kunden reagieren, das Vertrauen in ihre eigenen Anwendungen steigern und Geschäftsziele schneller erreichen.}
+
+Zusammenfassend lässt sich sagen, dass DevOps ein Mindset, eine Philosophie oder ein Prozess ist, der den von Natur aus zyklischen Prozess der Softwareentwicklung automatisieren, koordinieren und beschleunigen soll.
+Was zunächst komplex klingt kann heutzutage mithilfe vieler Tools auf dem Markt verhältnismäßig leicht erreicht werden.
+Im Laufe des Seminars wurde hierfür primär die Plattform GitLab CI eingesetzt, welche auch hier später als Beispiel dienen wird.
+Wichtig ist allerdings ein Verständnis dafür zu entwickeln, dass GitLab nicht die Lösung für DevOps ist, sondern nur ein Tool, wie viele andere auch, um das Mindset eines Entwickler- und Operationsteams elegant umsetzen zu können.
+
+\subsection{DevSecOps}
+
+Etymologisch lässt sich auch der Begriff DevSecOps schnell erklären.
+Das Kofferwort DevOps wurde lediglich um die Komponente der "Security" erweitert.
+In der Umsetzung ist dies allerdings nicht so einfach, wie es auf den ersten Blick scheint.
 
 \subsection{Git Struktur/Branching}
 
@@ -52,7 +69,15 @@ Die Vorteile gegenüber GitHub flow liegen auf der Hand.
 Ein Branchingmodell, welches nur minimal komplizierter ist, bringt eine stark erhöhte Stabilität im Programm, da Features zunächst an eine kleine Testgruppe ausgerollt wird, Feedback gesammelt wird und dieses erneut in den Entwicklungsprozess einfließen kann, bevor ein Feature an alle Nutzer ausgerollt wird.
 Alle Vorteile von GitHub Flow gegenüber git-flow bleiben allerdings erhalten, weshalb dies immer noch ein exzellentes Modell für DevOps ist.
 
-\subsection{Coding Guidelines/Code Architecture}\label{subsec:codingGuidelines/codeArchitecture}
+\subsection{DevSecOps Pipelines}
+
+Pipelines bilden die Grundlage in der Umsetzung eines erfolgreichen DevSecOps Projekts.
+Grundsätzlich lassen sich Pipelines in drei Bereiche unterteilen: Testen, Bauen und Deployen.
+Allerdings lassen sich diese Schritte nicht immer einfach nacheinander ausführen, da Schritte im Test zum Beispiel von einem Build oder Deployment abhängen können, genauso wie ein Deployment von einem Test und offensichtlich einem Build abhängen kann.
+Daher werden die einzelnen Schritte im Folgenden nacheinander betrachtet und analysiert.
+Diese sind chronologisch so angeordnet, wie sie auch im finalen Prozess vorhanden sein sollten.
+
+\subsubsection{Coding Guidelines/Code Architecture}\label{subsec:codingGuidelines/codeArchitecture}
 
 Nachdem nun klar ist, in welcher Struktur der Code im VCS vorzufinden ist, gilt es nun die einzelnen Schritte in der Pipeline zu betrachten.
 Hierbei sollte mit den Syntax- und Architekturtests begonnen werden.
@@ -64,7 +89,7 @@ Für die Bewertung der Position eines Schrittes in einer Pipeline gibt es mehrer
     \item Wann muss dieser Job ausgeführt werden?
 \end{itemize}
 
-\subsubsection{Welche Abhängigkeiten existieren zu anderen Schritten?}
+\paragraph{Welche Abhängigkeiten existieren zu anderen Schritten?}
 
 Bei der Betrachtung der Abhängigkeiten zu anderen Schritten liegt auf der Hand, dass nichts außer dem Source Code nötig ist, um dessen Qualität zu testen.
 Somit gibt es keine anderen Jobs, welche vor diesem Job auszuführen sind.
@@ -72,49 +97,57 @@ Dies ist auch der Grund, weshalb dieser Schritt zu Beginn der Pipeline angeordne
 
 Da auch keine anderen Tests Abhängigkeiten zu Architektur- und Syntaxtests haben lassen sich diese auch problemfrei zu anderen Tests parallelisieren.
 
-\subsubsection{Wie hoch ist die Zeitkomplexität des Jobs?}
+\paragraph{Wie hoch ist die Zeitkomplexität des Jobs?}
 
 Syntax- und Architekturtests sind in relativ kurzer Zeit auszuführen, da keine externen Abhängigkeiten oder komplexe Build Prozesse nötig sind.
 Dies ist speziell in den ersten Jobs äußerst erstrebenswert, da die Pipeline möglichst früh fehlschlagen sollte, wenn Fehler existieren, um unnötige Verzögerungen im Entwicklungsprozess zu vermeiden.
 Zudem ist auch die Behebung von Syntaxfehlern zumeist relativ schnell erledigt, sodass zügig die weiteren Schritte der Pipeline erreicht werden können.
 
-\subsubsection{Wann muss dieser Job ausgeführt werden?}
+\paragraph{Wann muss dieser Job ausgeführt werden?}
 
 Bei dieser Frage ist die Zeitkomplexität oftmals ein großer Faktor.
 Tests, die kaum Zeit in Anspruch nehmen kann man ohne große Einschränkungen häufiger ausführen.
 Dementsprechend empfiehlt es sich hier, die Tests bei jedem commit auszuführen, um stets eine gute Codequalität gewährleisten zu können und bereits früh im Prozess korrigieren zu können, falls die Architektur nicht den gesetzten Standards entspricht.
 
-\subsection{Vulnerability Checker}
-\subsubsection{Welche Abhängigkeiten existieren zu anderen Schritten?}
-\subsubsection{Wie hoch ist die Zeitkomplexität des Jobs?}
-\subsubsection{Wann muss dieser Job ausgeführt werden?}
+\subsubsection{Vulnerability Checker}
 
-\subsection{Test-/Codeabdeckung}
-\subsubsection{Welche Abhängigkeiten existieren zu anderen Schritten?}
-\subsubsection{Wie hoch ist die Zeitkomplexität des Jobs?}
-\subsubsection{Wann muss dieser Job ausgeführt werden?}
+Bei der Entwicklung großer Projekte ist es kaum möglich externe Abhängigkeiten zu vermeiden.
+Für nahezu jedes Framework und jede Programmiersprache existieren Package Manager, die den Prozess externe Pakete ins Projekt einzufügen extrem vereinfachen.
+Diese Leichtigkeit löst allerdings ein Problem aus.
+Viele Libraries wurden selbst von unerfahrenen Entwicklern geschrieben, oder wurden in sehr kurzer Zeit entwickelt, was zu Fehlern und vor allem zu Sicherheitslücken führen kann.
+Die Entwicklercommunity kann diese zwar häufig relativ schnell finden und identifizieren, aber Maintainer können die Sicherheitslücken oftmals nicht sofort schließen.
+Daher ist ein wichtiger Faktor einer guten Pipeline
 
-\subsection{Lizenzüberprüfung}
-\subsubsection{Welche Abhängigkeiten existieren zu anderen Schritten?}
-\subsubsection{Wie hoch ist die Zeitkomplexität des Jobs?}
-\subsubsection{Wann muss dieser Job ausgeführt werden?}
+\paragraph{Welche Abhängigkeiten existieren zu anderen Schritten?}
+\paragraph{Wie hoch ist die Zeitkomplexität des Jobs?}
+\paragraph{Wann muss dieser Job ausgeführt werden?}
 
-\subsection{Repository Manager}
-\subsubsection{Welche Abhängigkeiten existieren zu anderen Schritten?}
-\subsubsection{Wie hoch ist die Zeitkomplexität des Jobs?}
-\subsubsection{Wann muss dieser Job ausgeführt werden?}
+\subsubsection{Test-/Codeabdeckung}
+\paragraph{Welche Abhängigkeiten existieren zu anderen Schritten?}
+\paragraph{Wie hoch ist die Zeitkomplexität des Jobs?}
+\paragraph{Wann muss dieser Job ausgeführt werden?}
 
-\subsection{Dynamic Application Security Testing (DAST)}
-\subsubsection{Welche Abhängigkeiten existieren zu anderen Schritten?}
-\subsubsection{Wie hoch ist die Zeitkomplexität des Jobs?}
-\subsubsection{Wann muss dieser Job ausgeführt werden?}
+\subsubsection{Lizenzüberprüfung}
+\paragraph{Welche Abhängigkeiten existieren zu anderen Schritten?}
+\paragraph{Wie hoch ist die Zeitkomplexität des Jobs?}
+\paragraph{Wann muss dieser Job ausgeführt werden?}
 
-\subsection{Code Review}
-\subsubsection{Welche Abhängigkeiten existieren zu anderen Schritten?}
-\subsubsection{Wie hoch ist die Zeitkomplexität des Jobs?}
-\subsubsection{Wann muss dieser Job ausgeführt werden?}
+\subsubsection{Repository Manager}
+\paragraph{Welche Abhängigkeiten existieren zu anderen Schritten?}
+\paragraph{Wie hoch ist die Zeitkomplexität des Jobs?}
+\paragraph{Wann muss dieser Job ausgeführt werden?}
 
-\subsection{Application Monitoring}
-\subsubsection{Welche Abhängigkeiten existieren zu anderen Schritten?}
-\subsubsection{Wie hoch ist die Zeitkomplexität des Jobs?}
-\subsubsection{Wann muss dieser Job ausgeführt werden?}
+\subsubsection{Dynamic Application Security Testing (DAST)}
+\paragraph{Welche Abhängigkeiten existieren zu anderen Schritten?}
+\paragraph{Wie hoch ist die Zeitkomplexität des Jobs?}
+\paragraph{Wann muss dieser Job ausgeführt werden?}
+
+\subsubsection{Code Review}
+\paragraph{Welche Abhängigkeiten existieren zu anderen Schritten?}
+\paragraph{Wie hoch ist die Zeitkomplexität des Jobs?}
+\paragraph{Wann muss dieser Job ausgeführt werden?}
+
+\subsubsection{Application Monitoring}
+\paragraph{Welche Abhängigkeiten existieren zu anderen Schritten?}
+\paragraph{Wie hoch ist die Zeitkomplexität des Jobs?}
+\paragraph{Wann muss dieser Job ausgeführt werden?}
