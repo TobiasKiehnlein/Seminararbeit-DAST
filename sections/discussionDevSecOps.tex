@@ -13,18 +13,88 @@ Die Bedeutung dieses Begriffs hingegen stellt sich als weit weniger eindeutig he
 Die Antwort auf die Frage nach der Bedeutung ist vielmehr ein Verständnis für ein Ziel, welches versucht wird zu erreichen, eine Philosophie Prozesse zu optimieren und ein "Ansatz, wie die Zusammenarbeit zwischen Softwareentwicklung und IT-Betrieb verbessert werden kann."\cite{DevOps2021}
 
 Microsoft Azure, einer der führenden Betreiber im DevOps Segment, beschreibt in einem Blogpost diese Philosophie als eine Art Brücke zwischen IT-Betrieb, Qualitätstechnik und Sicherheit\cite{WasIstDevOps}:
-\blockquote{DevOps ermöglicht es zuvor getrennten Rollen wie Entwicklung, IT-Betrieb, Qualitätstechnik und Sicherheit, sich zu koordinieren und zusammenarbeiten, um bessere und zuverlässigere Produkte zu liefern. Durch die Einführung der DevOps-Kultur mit DevOps-Methoden und -Tools können Teams besser auf die Anforderungen ihrer Kunden reagieren, das Vertrauen in ihre eigenen Anwendungen steigern und Geschäftsziele schneller erreichen.}
+\begin{quote}
+    DevOps ermöglicht es zuvor getrennten Rollen wie Entwicklung, IT-Betrieb, Qualitätstechnik und Sicherheit, sich zu koordinieren und zusammenarbeiten, um bessere und zuverlässigere Produkte zu liefern. Durch die Einführung der DevOps-Kultur mit DevOps-Methoden und -Tools können Teams besser auf die Anforderungen ihrer Kunden reagieren, das Vertrauen in ihre eigenen Anwendungen steigern und Geschäftsziele schneller erreichen.
+\end{quote}
 
 Zusammenfassend lässt sich sagen, dass DevOps ein Mindset, eine Philosophie oder ein Prozess ist, der den von Natur aus zyklischen Prozess der Softwareentwicklung automatisieren, koordinieren und beschleunigen soll.
 Was zunächst komplex klingt kann heutzutage mithilfe vieler Tools auf dem Markt verhältnismäßig leicht erreicht werden.
 Im Laufe des Seminars wurde hierfür primär die Plattform GitLab CI eingesetzt, welche auch hier später als Beispiel dienen wird.
 Wichtig ist allerdings ein Verständnis dafür zu entwickeln, dass GitLab nicht die Lösung für DevOps ist, sondern nur ein Tool, wie viele andere auch, um das Mindset eines Entwickler- und Operationsteams elegant umsetzen zu können.
 
+\subsection{Left Shift in DevOps}
+
+Der Begriff "Left Shift" beschreibt den Ansatz Tests so früh wie möglich, also weiter \textit{links} auf einem virtuellen Zeitstrahl, zu machen.
+Dadurch entsteht ein erhöhter Fokus auf dem Testen und somit im Idealfall auch eine höhere Qualität in der Software.\cite{dr.darrellr.schragDevOpsShiftLeft2016}
+Dies geschieht durch das direkte Feedback, welches nun an jeden commit geknüpft ist.
+Somit können Unschönheiten und Fehler direkt behoben werden, ohne dass sie weitere negative Effekte auslösen können.
+
+Dies muss sich nicht ausschließlich auf Unit-/Integration- und End-To-End-Tests beziehen, sondern kann auch auf Security Tests, hier im Speziellen \hyperref[subsubsec:dast]{DAST}, bezogen werden.
+Hierbei kann man sogar so weit gehen, dass alle sicherheitsrelevanten Tests nach jedem Commit ausgeführt werden sollten, selbst wenn diese eine hohe Zeit in Anspruch nehmen.
+Dies hat den Vorteil, dass Entwickler ein umgehendes Feedback erhalten, über alle Sicherheitslücken, die in dem aktuellen Commit gefunden werden.
+Daher wird dies auch von vielen Experten empfohlen, unter welchen auch GitLab ist, deren Tool die Grundlage für die Umsetzung einer Pipeline in diesem Seminar geboten hat.\cite{gitlabSeismicShiftApplication2020}
+Dadurch, dass Sicherheitslücken nun gemeinsam mit den Testergebnissen direkt an die Entwickler zurückgegeben werden fließt das Beheben von Sicherheitslücken nahtlos in den Prozess der Behebung von Fehlern und der Entwicklung neuer Features ein.
+
+
 \subsection{DevSecOps}
 
 Etymologisch lässt sich auch der Begriff DevSecOps schnell erklären.
 Das Kofferwort DevOps wurde lediglich um die Komponente der "Security" erweitert.
 In der Umsetzung ist dies allerdings nicht so einfach, wie es auf den ersten Blick scheint.
+IT-Sicherheit ist grundsätzlich ein Wettrennen.
+Während einige Entwickler/Security Experten versuchen eine Software zu schützen, versuchen Hacker Schwachstellen zu finden und zu nutzen.
+Außerdem ist IT-Sicherheit ein sehr komplexes Thema, welches in nahezu jedem Fall Experten benötigt.
+Allerdings lassen sich auch viele Teile der Überprüfung auf Schwachstellen automatisieren und nach links shiften.
+
+\subsection{Entwicklungsprinzipien}
+
+Kanban, Scrum, Waterfall oder etwas Eigenes erfinden?
+Der Bereich der agilen Entwicklung hat in den letzten Jahren viele verschiedene Verfahren entwickelt, um Projekte zu managen und agil zu arbeiten.
+"Agile Softwareentwicklung zeichnet sich durch selbstorganisierende Teams sowie eine iterative und inkrementelle Vorgehensweise aus."\cite{AgileSoftwareentwicklung2021}
+Der Kern agiler Softwareentwicklung ist also, das Kurzhalten von Planungsphasen und damit einhergehender kontinuierlicher weiterer Planung zur Laufzeit des Projekts.
+Ähnlich wie bei DevOps ist das Ziel, sich möglichst schnell und flexibel auf Änderungen anpassen zu können, kontinuierlich neuen Code vorweisen können und sich "in regelmäßigen, kurzen Abständen mit dem Kunden [abstimmen]"\cite{AgileSoftwareentwicklung2021} zu können und dabei die Codequalität zusätzlich positiv zu beeinflussen.
+Hier greifen DevOps und agile Methoden natürlich Hand in Hand.
+Agile Methoden können sehr schnell sehr viele Aspekte mit sich bringen und sind als eigenes Thema in einer Arbeit sicher besser aufgehoben.
+Dennoch soll hier ein grundlegendes Verständnis für Kanban, Scrum und Waterfall gegeben werden, da agile Entwicklung eine wichtige Voraussetzung für ein gutes und erfolgreiches DevOps orientiertes Projekt ist.
+
+\subsubsection{Kanban}\label{subsubsec:kanban}
+
+Wie bei vielen agilen Methoden steht im Zentrum von Kanban ein Board für die visualisierung einzelner Arbeitsschritte.
+Auf diesem sind alle zu tätigen Aufgaben eingetragen, welche Schritt für Schritt in Bearbeitung gehen können.
+Zur Unterscheidung dieser Zustände führt man mehrere, aber mindestens drei, Spalten ein.
+Diese sind meist mit den Begriffen "Backlog", "In Progress" und "Completed" gekennzeichnet.
+Im Backlog befinden sich alle noch nicht begonnenen Aufgaben, die bei Bedarf in Bearbeitung gehen können.
+In diesem Fall wird die Karte aus der Spalte "Backlog" in die Spalte "In Progress" bewegt, um für alle Mitarbeitenden zu signalisieren, dass an dieser Aufgabe bereits gearbeitet wird.
+Nach Fertigstellung einer dieser Karten wird diese in die Spalte "Completed" verschoben und ist damit erledigt.
+Um verschiedene Wichtigkeitsstufen abbilden zu können ist möglich verschiedene sog. Lanes zu verwenden.
+Diese werden als einzelne Reihen dargestellt, von denen in der Regel obere Reihen vor unteren Reihen bearbeitet werden sollen.
+Zudem limitiert man die Anzahl maximal erlaubter Tickets in Bearbeitung, um zu starkes Multitasking und damit einhergehender sinkender Effizienz zu vermeiden.
+
+Die Vorteile eines solchen Prinzips liegen auf der Hand.
+Durch ein sehr offenes, transparentes Prinzip entsteht ein gleichmäßiger Workflow, der sich in den meisten Situationen einfach in bestehende Prozesse integrieren lässt.
+
+Dem entgegen steht die Abwesenheit von Zeitplanung, was Probleme bei der Einhaltung von Deadlines erzeugen kann, sowie die Bedingung Arbeit in einzelne Schritte aufteilen zu können.
+Speziell letzteres ist in der Softwareentwicklung zwar meist kein Problem, allerdings dennoch häufiger als Erwartet ein Problem, wenn an großen zusammenhängenden Features gearbeitet werden muss.\cite{Kanban}
+
+\subsubsection{Scrum}
+
+Atlassian, zieht bei der Beschreibung von Scrum eine sehr passende Football Analogie heran\cite{atlassianScrumWasEs}:
+\begin{quote}
+    Scrum ist ein Framework, das die Zusammenarbeit in Teams unterstützt. \textit{Scrum} steht im Rugby für \textit{Gedränge} – und genau wie ein Rugbyteam, das für das große Spiel trainiert, sind Teams mit Scrum in der Lage, durch Erfahrungen zu lernen, sich bei der Problembehebung selbst zu organisieren sowie ihre Erfolge und Niederlagen zu reflektieren, um sich kontinuierlich zu verbessern.
+\end{quote}
+
+Ähnlich wie bei \hyperref[subsubsec:kanban]{Kanban} werden Aufgaben aufgeteilt in "Backlog", "In Progress" und "Completed".
+Allerdings liegt ein weitaus größerer Fokus auf der Zeitplanung, die bei Kanban vollständig weg gelassen wird.
+Im Gegensatz zu Kanban werden die Aufgaben nicht einfach bearbeitet, sobald die vorherige Aufgabe abgeschlossen wird, sondern es wird für einen kurzen Zeitraum, meist zwei Wochen, geplant, welche Aufgaben zu erledigen sind.
+Dieser Zeitraum nennt sich Sprint und stellt die Basis von Kanban dar.
+
+\subsubsection{Waterfall}
+
+\subsubsection{Fazit}
+
+Alle oben genannten Methoden bieten eine gute Grundlage für DevSecOps.
+Insgesamt muss jedes Team für sich entscheiden, welches Entwicklungsprinzip für sie am besten funktioniert.
+Alle Prinzipien einmal auszuprobieren ist definitiv empfehlenswert, um den optimalen Workflow für sein Team und seine Usecases finden zu können.
 
 \subsection{Git Struktur/Branching}
 
@@ -137,7 +207,7 @@ Daher ist ein wichtiger Faktor einer guten Pipeline
 \paragraph{Wie hoch ist die Zeitkomplexität des Jobs?}
 \paragraph{Wann muss dieser Job ausgeführt werden?}
 
-\subsubsection{Dynamic Application Security Testing (DAST)}
+\subsubsection{Dynamic Application Security Testing (DAST)}\label{subsubsec:dast}
 \paragraph{Welche Abhängigkeiten existieren zu anderen Schritten?}
 \paragraph{Wie hoch ist die Zeitkomplexität des Jobs?}
 \paragraph{Wann muss dieser Job ausgeführt werden?}
