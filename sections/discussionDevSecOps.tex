@@ -7,10 +7,9 @@ Was muss man beachten?
 Diese Fragen sollen in der folgenden Analyse Schritt für Schritt beantwortet werden und bilden die Basis für das grundlegende Verständnis von DevSecOps Prozessen.
 
 \subsection{DevOps}
-Die Frage, was DevOps eigentlich sei, ist etymologisch leicht zu beantworten.
-DevOps ist ein Kofferwort aus den Komponenten "Development" und "Operations".
-Die Bedeutung dieses Begriffs hingegen stellt sich als weit weniger eindeutig heraus.
-Die Antwort auf die Frage nach der Bedeutung ist vielmehr ein Verständnis für ein Ziel, welches versucht wird zu erreichen, eine Philosophie Prozesse zu optimieren und ein "Ansatz, wie die Zusammenarbeit zwischen Softwareentwicklung und IT-Betrieb verbessert werden kann."\cite{DevOps2021}
+Etymologisch betrachtet ist DevOps ein Kofferwort aus den Komponenten "Development" und "Operations".
+Die Bedeutung dieses Begriffs hingegen ist nicht klar und eindeutig definiert.
+DevOps ist vielmehr ein Verständnis für ein Ziel, welches versucht wird zu erreichen, eine Philosophie Prozesse zu optimieren und ein "Ansatz, wie die Zusammenarbeit zwischen Softwareentwicklung und IT-Betrieb verbessert werden kann."\cite{DevOps2021}
 
 Microsoft Azure, einer der führenden Betreiber im DevOps Segment, beschreibt in einem Blogpost diese Philosophie als eine Art Brücke zwischen IT-Betrieb, Qualitätstechnik und Sicherheit\cite{WasIstDevOps}:
 \begin{quote}
@@ -21,27 +20,27 @@ Microsoft Azure, einer der führenden Betreiber im DevOps Segment, beschreibt in
 Zusammenfassend lässt sich sagen, dass DevOps ein Mindset, eine Philosophie oder ein Prozess ist, der den von Natur aus zyklischen Prozess der Softwareentwicklung automatisieren, koordinieren, strukturieren und beschleunigen soll.
 Was zunächst komplex klingt kann heutzutage mithilfe vieler Tools auf dem Markt verhältnismäßig leicht erreicht werden.
 Im Laufe des Seminars wurde hierfür primär die Plattform GitLab CI eingesetzt, welche auch hier später als Beispiel dienen wird.
-Wichtig ist allerdings ein Verständnis dafür zu entwickeln, dass GitLab nicht die Lösung für DevOps ist, sondern nur ein Tool, wie viele andere auch, um das Mindset eines Entwickler- und Operationsteams elegant umsetzen zu können.
+Wichtig ist allerdings ein Verständnis dafür zu entwickeln, dass GitLab nicht die Lösung für DevOps ist, sondern nur ein Tool unter vielen, um die Strukturen eines Entwickler- und Operationsteams elegant umsetzen zu können.
 
 \subsection{Left Shift in DevOps}
 
-Der Begriff "Left Shift" beschreibt den Ansatz Tests so früh wie möglich, also zeitlich weiter links, anzuordnen.
+Der Begriff "Left Shift" beschreibt den Ansatz Tests so früh wie möglich, also weiter "links" auf einer Zeitachse, anzuordnen.
 Dadurch entsteht ein erhöhter Fokus auf Tests und somit im Idealfall auch ein höherer Qualitätsstandard bei der Entwicklung der Software.\cite{dr.darrellr.schragDevOpsShiftLeft2016}
-Dies geschieht durch das direkte Feedback, welches nun an jeden commit\footnote{Ein commit beschreibt eine Menge an Änderungen, welche vom Entwickler in das Versionskontrollsystem eingefügt werden. Im Fall dieses Seminars ist das Versionskontrollsystem git, bzw. GitLab. Nähere Informationen dazu sind später in Kapitel~\ref{subsec:git-struktur/branching} zu finden.} geknüpft ist.
-Somit können Unschönheiten und Fehler direkt behoben werden, ohne dass sie weitere negative Effekte auslösen können.
+Dies geschieht durch das direkte Feedback, welches nun an jeden Commit\footnote{Ein Commit beschreibt eine Menge an Änderungen, welche vom Entwickler in das Versionskontrollsystem eingefügt werden.
+Im Fall dieses Seminars ist das Versionskontrollsystem git, bzw. GitLab. Nähere Informationen dazu sind später in Kapitel~\ref{subsec:git-struktur/branching} zu finden.} geknüpft ist.
+Somit können schlechter Stil und Fehler direkt behoben werden, ohne weitere negative Effekte auszulösen.
 
-Dies muss sich nicht ausschließlich auf Unit-/Integration- und End-To-End-Tests beziehen, sondern kann auch auf Security Tests, hier im Speziellen \hyperref[subsubsec:dast]{DAST}, bezogen werden.
-Hierbei kann man sogar so weit gehen, dass alle sicherheitsrelevanten Tests nach jedem Commit ausgeführt werden sollten, selbst wenn diese eine hohe Zeit in Anspruch nehmen.
-Dies hat den Vorteil, dass Entwickler ein umgehendes Feedback erhalten, über alle Sicherheitslücken, die in dem aktuellen Commit gefunden werden.
-Daher wird dies auch von vielen Experten empfohlen, unter welchen auch GitLab ist, deren Tool die Grundlage für die Umsetzung einer Pipeline in diesem Seminar geboten hat.\cite{gitlabSeismicShiftApplication2020}
-Dadurch, dass Sicherheitslücken nun gemeinsam mit den Testergebnissen direkt an die Entwickler zurückgegeben werden fließt das Beheben von Sicherheitslücken nahtlos in den Prozess der Behebung von Fehlern und der Entwicklung neuer Features ein.
+Dies muss nicht ausschließlich auf Unit-/Integration- und End-To-End-Tests, sondern kann auch auf Security Tests, hier im Speziellen \hyperref[subsubsec:dast]{DAST}, bezogen werden.
+Hierbei kann man sogar so weit gehen, dass alle sicherheitsrelevanten Tests nach jedem Commit ausgeführt werden sollten, selbst wenn diese eine hohe Zeitkomplexität mit sich bringen.
+Dies hat den Vorteil, dass Entwickler umgehendes Feedback über alle Sicherheitslücken, die in dem aktuellen Commit gefunden werden, erhalten.
+Daher wird dies auch von vielen Experten empfohlen, unter anderem GitLab, deren Tool die Grundlage für die Umsetzung einer Pipeline in diesem Seminar geboten hat.\cite{gitlabSeismicShiftApplication2020}
+Dadurch, dass Sicherheitslücken nun gemeinsam mit den Testergebnissen direkt an die Entwickler zurückgegeben werden, fließt das Beheben von Sicherheitslücken nahtlos in den Prozess der Behebung von Fehlern und der Entwicklung neuer Features ein.
 
 
 \subsection{DevSecOps}
 
-Etymologisch lässt sich auch der Begriff DevSecOps schnell erklären.
-Das Kofferwort DevOps wurde lediglich um die Komponente der "Security" erweitert.
-Die Umsetzung einer guten Integration eines Sicherheitsaspekts in einen DevOps Prozess ist allerdings nicht sehr einfach, da hierbei die Entwicklung ausgebremst werden kann.
+Etymologisch betrachtet wird das Kofferwort DevOps lediglich um "Security" erweitert.
+Eine gute Integration des Sicherheitsaspekts in einen DevOps Prozess ist allerdings nicht sehr einfach, da hierbei die Entwicklung stark ausgebremst werden kann.
 Dennoch ist der Sicherheitsaspekt bei einer Software nicht zu unterschätzen und sollte als zentraler Bestandteil einer DevSecOps Pipeline gesehen werden.
 IT-Sicherheit ist grundsätzlich ein Wettrennen.
 Während einige Entwickler/Security Experten versuchen eine Software zu schützen, versuchen Hacker Schwachstellen zu finden und zu nutzen.
@@ -51,8 +50,8 @@ Allerdings lassen sich auch viele Teile der Überprüfung auf Schwachstellen aut
 Hierfür gibt es verschiedene Punkte und Möglichkeiten, an denen man ansetzen kann.
 Einige davon werden später genauer erläutert, weshalb sie hier nur eine kurze Erwähnung finden sollen.
 Ein wichtiger Bestandteil bei der Umsetzung einer DevSecOps Pipeline ist ein guter Feedbackloop zwischen Entwicklern und Sicherheitsexperten, die helfen können gefundene Sicherheitslücken einzuordnen und falls nötig zu beheben.
-Dies kann beispielsweise durch automatische Issues erreicht werden, die von den entsprechenden Schritten angelegt werden und den Entwicklern und Sicherheitsexperten die Möglichkeit geben über vorhandene Lücken zu diskutieren.
-GitLab bietet hierfür die Möglichkeit bei gefundenen Sicherheitslücken im \hyperref[subsubsec:dast]{DAST} oder bei der Verwendung des integrierten \hyperref[subsubsec:vulChecker]{Vulnerability Checkers} mit einem Klick ein Issue für eine Sicherheitslücke in den integrierten GitLab Issue Boards anzulegen.
+Dies kann beispielsweise durch automatische Issues\footnote{Ein Umstand der Aufmerksamkeit und möglicherweise Lösung bedarf. Oftmals Aufgaben oder Probleme.} erreicht werden, die von den entsprechenden Schritten angelegt werden und den Entwicklern und Sicherheitsexperten die Möglichkeit geben über vorhandene Lücken zu diskutieren.
+Bei gefundenen Sicherheitslücken im \hyperref[subsubsec:dast]{DAST} oder bei der Verwendung des integrierten \hyperref[subsubsec:vulChecker]{Vulnerability Checkers} bietet GitLab die Möglichkeit mit einem Klick ein Issue für eine Sicherheitslücke in den integrierten GitLab Issue Boards anzulegen.
 Wie genau dieser Loop insgesamt aussehen kann und sollte wird später noch graphisch visualisert (Siehe Abbildung~\ref{fig:devSecOpsProcess}).
 
 \subsection{Entwicklungsprinzipien}
@@ -60,7 +59,7 @@ Wie genau dieser Loop insgesamt aussehen kann und sollte wird später noch graph
 Der Bereich der agilen Entwicklung hat in den letzten Jahren viele verschiedene Verfahren entwickelt, um Projekte zu managen und agil zu arbeiten.
 "Agile Softwareentwicklung zeichnet sich durch selbstorganisierende Teams sowie eine iterative und inkrementelle Vorgehensweise aus."\cite{AgileSoftwareentwicklung2021}
 Der Kern agiler Softwareentwicklung ist also, das Kurzhalten von Planungsphasen und damit einhergehender kontinuierlicher weiterer Planung zur Laufzeit des Projekts.
-Ähnlich wie bei DevOps ist das Ziel, sich möglichst schnell und flexibel auf Änderungen anpassen zu können, kontinuierlich neuen Code vorweisen können und sich "in regelmäßigen, kurzen Abständen mit dem Kunden [abstimmen]"\cite{AgileSoftwareentwicklung2021} zu können und dabei die Codequalität zusätzlich positiv zu beeinflussen.
+Ähnlich wie bei DevOps ist das Ziel, sich möglichst schnell und flexibel auf Änderungen anpassen zu können, kontinuierlich neuen Code vorweisen zu können und sich "in regelmäßigen, kurzen Abständen mit dem Kunden [abstimmen]"\cite{AgileSoftwareentwicklung2021} zu können und dabei die Codequalität zusätzlich positiv zu beeinflussen.
 Hier greifen DevOps und agile Methoden Hand in Hand.
 Agile Methoden können sehr schnell sehr komplex werden, weshalb sie in dieser Arbeit nur so weit beschrieben werden, dass der Zusammenhang zur DevSecOps Philosophie offensichtlich werden.
 Daher soll hier ein grundlegendes Verständnis für Kanban und Scrum gegeben werden, da agile Entwicklung eine wichtige Voraussetzung für ein gutes und erfolgreiches DevOps orientiertes Projekt ist.
@@ -113,12 +112,28 @@ Bevor eine Betrachtung der einzelnen Schritte im Prozess stattfinden kann, muss 
 In diesem Seminar wurde als VCS GitLab (git) verwendet, weshalb dieses auch hier als Grundlage dienen soll.
 Wenn es um das Thema Struktur im git geht, entstehen häufig hitzige Diskussionen unter Entwicklern.
 Die Menge an möglichen Modellen ist scheinbar endlos.
-In der Vergangenheit hat sich oft gezeigt, dass git-flow\cite{SuccessfulGitBranching} eine gute Möglichkeit ist, um sein git zu ordnen.
-Allerdings ist dieses Modell sehr kompliziert, weshalb von diesem Modell heutzutage oftmals abgeraten wird.
-Ein häufig vorgeschlagenes Alternativmodell stellt GitHub flow\cite{UnderstandingGitHubFlow} dar.
-Dieses Modell ist im Gegensatz zu git-flow sehr einfach gestrickt.
-So einfach, dass Testumgebungen nicht wirklich anhand der gegebenen Branches dargestellt werden können.
-Deshalb empfiehlt sich die Verwendung eines Modells, das zwischen git-flow und GitHub flow anzuordnen ist.
+In der Vergangenheit hat sich oft gezeigt, dass git-flow\cite{SuccessfulGitBranching} eine gute Möglichkeit ist, um ein git Repository zu strukturieren.
+Git Flow besteht aus zwei permanenten Branches.
+Der erste ist der master, welcher die fertigen Releases widerspiegeln soll.
+Der zweite ist der develop, auf dem der aktuelle Entwicklungsstand abgebildet werden soll.
+Zusätzlich werden vom develop für jedes Feature eigene branches erstellt, die nach der Fertigstellung auch in diesen wieder zurück gemerged werden.
+Analog existieren hotfix branches, welche allerdings nicht vom develop sondern vom Master erstellt werden und lediglich dazu dienen schnell Fehler aus Releases zu beheben.
+Diese werden nach Fertigstellung sowohl direkt in den master als auch in den develop gemerged.
+Als letztes kommen noch die Release Branches hinzu.
+Diese führen zu einem finalen Release und sollten nur noch Bugfixes enthalten.
+Diese werden direkt wieder zurück in den develop gemerged.
+Nachdem der Release keine bekannten Bugs mehr enthält, wird dieser in den master gemerged und veröffentlicht.
+Wie allerdings schon auffällt stellt sich dieses Modell als verhältnismäßig komplex heraus und ist speziell für unerfahrene Entwickler schwer zu erlernen und oftmals auch hinderlich durch die starre Struktur.
+
+Daher haben sich im Laufe der Zeit viele alternative Modelle entwickelt, die versuchen diese Problem zu lösen.
+Ein häufig vorgeschlagenes solches Alternativmodell stellt GitHub flow\cite{UnderstandingGitHubFlow} dar.
+Dieses Modell ist im Gegensatz zu git-flow sehr einfach gestrickt und besteht lediglich aus einem Hauptbranch, welcher den Release Stand widerspiegelt.
+Zudem kommen nur noch die Feature branches, welche allerdings im Gegensatz zu git-flow direkt in den master gemerged werden und veröffentlicht werden.
+
+Dieses Modell ist offensichtlich sehr einfach, was allerdings auch wieder Probleme mit sich bringt.
+Test-/Staging-Umgebungen können nicht wirklich ausgelassen werden und es existiert keinerlei Kontrolle über die Menge an Features die ausgerollt wird.
+
+Daher empfiehlt sich ein Modell, welches die Vorteile von git-flow und GitHub Flow kombiniert.
 \begin{figure}[H]
     \includegraphics[width=0.8\textwidth]{img/branching}
     \centering
@@ -127,27 +142,28 @@ Deshalb empfiehlt sich die Verwendung eines Modells, das zwischen git-flow und G
 \end{figure}
 
 Das hier gezeigte Modell basiert relativ stark auf GitHub flow.
-Es gibt einen Hauptbranch (Main), welcher zu jeder Zeit veröffentlichbar sein sollte.
-Im Gegensatz zu GitHub flow ist dies allerdings nicht der main Branch, sondern ein staging Branch.
-Dieser kann dann Nutzern als Beta-Version zur Verfügung gestellt werden.
-So haben Nutzer die Möglichkeit neue Features sofort zu testen und direktes Feedback in den Entwicklungsprozess zurück zu bringen.
+Es existieren zwei parallele Branches, welche nach und nach immer wieder auf den gleichen Stand gebracht werden sollen.
+Der erste ist ein staging branch, auf welchen alle Features nach Fertigstellung analog zu GitHub Flow gemerged werden sollen.
+Dieser Branch sollte dennoch nur deploybaren Code nach aktueller Kenntnis über Bugs enthalten.
+Dieser kann dann Nutzern als Beta-Version zur Verfügung gestellt werden und erst nach einer Evaluation tatsächlich deployed werden.
+So haben Nutzer die Möglichkeit neue Features sofort zu testen und direktes Feedback in den Entwicklungsprozess einzubringen.
 Im Gegensatz zu GitHub flow ist dies allerdings nicht der Branch, der in Production veröffentlicht wird.
 Dafür gibt es den main branch, für den die gleichen Kriterien gelten wie für den Staging Branch.
-Zudem darf auf den main branch allerdings nur eine getestete Version vom Staging Branch deployed werden.
+Außerdem sollte auf den main branch nur vom staging branch gemerged werden, nachdem dieser von den Beta Testern ausführlich auf Bugs getestet wurde.
 Entwicklung sollte allerdings, genau wie bei GitHub flow, auf dem Main und Staging branch nicht stattfinden.
-Hierfür werden für jedes Feature eigene Branches aufgemacht (dunkelblau, hellblau und grün in Abbildung~\ref{fig:branchingModel}).
-Auf diesen werden alle commits gepushed, bis das feature bereit ist, in den Staging branch gemerged zu werden.
-Dies bedeutet, dass das Feature vollständig funktioniert.
-Sobald dieses Stadium erreicht ist, wird ein Pull Request in den Staging Branch erstellt.
-Hiermit wird der Review Prozess eingeleitet.
-Zunächst laufen natürlich alle automatisierten Tests und stellen die Codequalität und -funktionalität bestmöglich fest.
+Hierfür werden für jedes Feature eigene Branches erstellt (dunkelblau, hellblau und grün in Abbildung~\ref{fig:branchingModel}).
+Auf diesen werden alle Commits gepushed, bis das Feature vollständig funktioniert und somit bereit ist, in den Staging branch gemerged zu werden.
+Sobald dieses Stadium erreicht ist, wird ein Pull Request in den Staging Branch erstellt, wodurch ein Review Prozess beginnt.
+Zunächst laufen alle automatisierten Tests und stellen die Codequalität und -funktionalität bestmöglich fest.
 Im nächsten Schritt sollte der Merge Request von anderen Personen bestätigt werden und mögliche Fehler und Unstimmigkeiten sollten behoben werden.
+Hier gibt es auch die Möglichkeit über den Code zu diskutieren und ihn bestmöglich zu optimieren.
 Sobald diese Schritte durchlaufen sind, kann das Feature in den Staging Branch gemerged werden.
-Nun rollt die Pipeline das Feature automatisch an alle Beta Nutzer aus, sodass eine realistische Testumgebung Feedback in den Entwicklungsprozess zurückspielen kann.
+Nun rollt die Pipeline das Feature automatisch an alle Beta Nutzer aus, sodass der Feedbackprozess aus dem Betatest beginnen kann.
 Unter der Annahme, dass hierbei keine Fehler auftreten kann man nun mit erhöhter Sicherheit und Stabilität den Staging Branch nach einem Pull Request in den Main Branch mergen, was ein Deployemnt für alle Nutzer auslöst.
 
-Die Vorteile gegenüber GitHub flow liegen auf der Hand.
-Ein Branchingmodell, welches nur minimal komplizierter ist, bringt eine stark erhöhte Stabilität im Programm, da Features zunächst an eine kleine Testgruppe ausgerollt wird, Feedback gesammelt wird und dieses erneut in den Entwicklungsprozess einfließen kann, bevor ein Feature an alle Nutzer ausgerollt wird.
+Somit ist ein Branchingmodell, welches nur minimal komlizierter als GitHub Flow geworden ist.
+Dennoch bietet es im finalen Produkt eine stark erhöhte Stabilität, da Features von kleineren Testgruppen verwendet werden und deren Feedback gesammelt wieder in den Entwicklungsprozess einfließen kann.
+Nutzer können sich also frei entscheiden, ob sie lieber experimentellere Software nutzen wollen, um möglichst schnell neue Features zu erhalten, oder ob Stabilität ein größerer Faktor ist und ein Wunsch nach geregelteren Releases besteht.
 Alle Vorteile von GitHub Flow gegenüber git-flow bleiben allerdings erhalten, weshalb dies immer noch ein exzellentes Modell für DevOps ist.
 
 \subsection{DevSecOps Pipelines}
@@ -173,9 +189,9 @@ Für die Bewertung der Position eines Schrittes in einer Pipeline gibt es mehrer
 
 \paragraph{Welche Abhängigkeiten existieren zu anderen Schritten?}
 
-Bei der Betrachtung der Abhängigkeiten zu anderen Schritten liegt auf der Hand, dass nichts außer dem Source Code nötig ist, um dessen Qualität zu testen.
-Somit gibt es keine anderen Jobs, welche vor diesem Job auszuführen sind.
-Dies ist auch der Grund, weshalb dieser Schritt zu Beginn der Pipeline angeordnet sein sollte.
+Um die Qualität des Source Codes zu testen bedarf es ausschließlich des Codes. Es gibt keine weiteren Abhängikkeiten.
+Somit gibt es auch keine anderen Jobs, welche vor diesem Job auszuführen sind.
+Damit sollte dieser Schritt zu Beginn der Pipeline angeordnet sein.
 
 Da auch keine anderen Tests Abhängigkeiten zu Architektur- und Syntaxtests haben lassen sich diese auch problemfrei zu anderen Tests parallelisieren.
 
@@ -189,7 +205,7 @@ Zudem ist auch die Behebung von Syntaxfehlern zumeist relativ schnell erledigt, 
 
 Bei dieser Frage ist die Zeitkomplexität oftmals ein großer Faktor.
 Tests, die kaum Zeit in Anspruch nehmen kann man ohne große Einschränkungen häufiger ausführen.
-Dementsprechend empfiehlt es sich hier, die Tests bei jedem commit auszuführen, um stets eine gute Codequalität gewährleisten zu können und bereits früh im Prozess korrigieren zu können, falls die Architektur nicht den gesetzten Standards entspricht.
+Dementsprechend empfiehlt es sich hier, die Tests bei jedem Commit auszuführen, um stets eine gute Codequalität gewährleisten zu können und bereits früh im Prozess korrigieren zu können, falls die Architektur nicht den gesetzten Standards entspricht.
 
 \subsubsection{Vulnerability Checker}\label{subsubsec:vulChecker}
 
@@ -215,19 +231,18 @@ Viele Tools zur Bewertung von Paketen verwenden eine Datenbank, in der sie sehr 
 
 \paragraph{Wann muss dieser Job ausgeführt werden?}
 
-Wie bereits zuvor ist die geringe Zeitkomplexität ein Grund, weshalb sich dieser Schritt gut häufig ausführen lässt.
+Wie bereits zuvor erlaubt es die geringe Zeitkomplexität diesen Schritt auch häufiger auszuführen.
 Zudem existieren keine weiteren Abhängigkeiten, weshalb der Job auch gut parallel ausgeführt werden kann.
 Selbst, wenn dies aber nicht der Fall wäre sollte man diese Stufe dennoch bei jedem Commit ausführen und überprüfen, ob neu hinzugekommene Pakete bekannte Schwachstellen enthalten.
 Allerdings ist dies leider noch nicht vollständig ausreichend, da Sicherheitslücken auch später entdeckt werden können.
-Daher empfiehlt es sich, diese Tests je nach aktuellem Entwicklungsstand und der Häufigkeit von commits in einem Scheduled Lauf der Pipeline ebenfalls durchzuführen, um neue Sicherheitslücken möglichst schnell zu finden, auch wenn an dem Projekt nicht mehr aktiv entwickelt wird.
+Daher empfiehlt es sich, diese Tests je nach aktuellem Entwicklungsstand und der Häufigkeit von Commits in einem Scheduled Lauf der Pipeline ebenfalls durchzuführen, um neue Sicherheitslücken möglichst schnell zu finden, auch wenn an dem Projekt nicht mehr aktiv entwickelt wird.
 
 \subsubsection{Lizenzüberprüfung}
 
-Die Aufgabe der Lizenzüberprüfung scheint zunächst simpel und einleuchtend, stellt sich aber bei näherer Betrachtung als überraschend komplex dar.
-Die Komplexität vieler Lizenzen macht es Entwicklern oft nicht leicht zu entscheiden, welche Pakete problemfrei verwendet werden dürfen oder nicht.
-Oftmals werden auch Abhängigkeiten von Abhängigkeiten, etc. zum Problem.
+Die Komplexität vieler Lizenzen macht es Entwicklern oft nicht leicht zu entscheiden, welche Pakete sie problemfrei verwenden dürfen.
+Auch Abhängigkeiten von Abhängigkeiten, etc. können zum Problem werden.
 Hierbei eine gute Übersicht zu behalten ist ohne dem richtigen Tooling nahezu unmöglich.
-Außerdem liegt die Entscheidung der erlaubten Lizenzen oftmals nicht in der Hand der Entwickler, sondern einer gezielten Rechtsabteilung.
+Außerdem liegt die Entscheidung der erlaubten Lizenzen oftmals nicht in der Hand der Entwickler, sondern einer Rechtsabteilung.
 Mithilfe einer guten Lizenzprüfung kann man hier also eine Brücke schlagen für eine nahtlose Kooperation zwischen Entwicklern und rechtlichen Lizenzaspekten, ohne dass Entwickler einen tiefen Einblick in Lizensierungsmodelle benötigen und ohne, dass die Rechtsabteilung irgendwelche Informationen über Softwareentwicklung benötigt, um eine korrekte Lizenzierung validieren zu können.
 
 \paragraph{Welche Abhängigkeiten existieren zu anderen Schritten?}
@@ -242,7 +257,7 @@ Da hierbei lediglich Lizenzen gegen Regeln geprüft werden müssen, ist dieser J
 
 \paragraph{Wann muss dieser Job ausgeführt werden?}
 
-Da ein Paket in einer festen Version seine Lizenzierung nicht einfach ändern kann, reicht es völlig aus bei jedem commit zu prüfen, ob sich Pakete verändert haben.
+Da ein Paket in einer festen Version seine Lizenzierung nicht einfach ändern kann, reicht es völlig aus bei jedem Commit zu prüfen, ob sich Pakete verändert haben.
 Sobald eine Veränderung in den verwendeten Paketen zu finden ist, sollte die Pipeline die Lizenzen der entsprechenden Lizenzen überprüfen.
 
 \subsubsection{Dynamic Application Security Testing (DAST)}\label{subsubsec:dast}
@@ -264,26 +279,25 @@ Dennoch wird DAST aufgrund der starken Abhängigkeit meist als letzter Schritt i
 
 \paragraph{Wie hoch ist die Zeitkomplexität des Jobs?}
 
-Die Zeitkomplexität von DAST ist enorm hoch.
+Die Zeitkomplexität von DAST ist sehr hoch.
 Dies hängt mit der Komplexität und der Verlangsamung von Test durch die interaktion mit graphischen Bedienelementen zusammen.
 Bei DAST werden Websiten zunächst nach allen möglichen Routen der Anwendung abgesucht.
 Dazu wird ein Crawler verwendet welcher Schritt für Schritt versucht alle Links, Buttons und Eingabefelder zu bedienen um im Idealfall alle erreichbaren Routen zu finden.
 Je nach Komplexität der Anwendung kann dies allein bereits bis zu 30 Minuten dauern.
-Sobald alle zu Testenden Seiten gefunden sind werden die gewünschten Sicherheitslücken auf der Website gesucht.
+Sobald alle zu Testenden Seiten gefunden sind, werden die gewünschten Sicherheitslücken auf der Website gesucht.
 Hierzu wird versucht mit gezielten Eingaben ein Fehlverhalten auszulösen.
 Da dies viele Schritte und Versuche mit sich bringt, kann die Dauer einer DAST Stage bis zu mehreren Stunden an Zeit in Anspruch nehmen.
 Somit ist nicht nur die starke Abhängigkeit, sondern auch die hohe Zeitkomplexität des Jobs ein Grund dafür ihn am Ende der Pipeline auszuführen.
 
 \paragraph{Wann muss dieser Job ausgeführt werden?}
 
-Hierbei gibt es viele verschiedene Auffassungen.
-Mindestens aber vor jeder Veröffentlichung sollte die Pipeline laufen, um gewährleisten zu können, dass die gröbsten Sicherheitslücken gefunden wurden.
+Hier gibt es viele verschiedene Auffassungen.
+Mindestens vor jeder Veröffentlichung sollte die Pipeline laufen, um gewährleisten zu können, dass die gröbsten Sicherheitslücken gefunden wurden.
 Desto öfter die Pipeline ausgeführt wird desto schneller können Sicherheitslücken behoben werden und desto direkter ist das Feedback an die Entwickler.
 Dies ist grundsätzlich empfehlens- und wünschenswert.
 Deshalb wir auch oft, zum Beispiel auch von GitLab empfohlen, die Pipeline bei jedem Commit laufen zu lassen.\cite{gitlabSeismicShiftApplication2020}
 Dem entgegen steht die hohe Zeitkomplexität und die damit verbundene Auslastung der Serverinfrastruktur.
 Daher muss jedes Entwicklerteam selbst abwägen, wie oft dieser Schritt durchgeführt werden sollte.
-
 
 \subsubsection{Visualisierung eines optimalen DevSecOps Prozesses}
 \begin{figure}[H]
@@ -292,3 +306,14 @@ Daher muss jedes Entwicklerteam selbst abwägen, wie oft dieser Schritt durchgef
     \caption{Graphische Darstellung eines optimalen DevSecOps Prozesses}
     \label{fig:devSecOpsProcess}
 \end{figure}
+
+Softwareentwicklung ist immer ein zyklischer Prozess, bei dem Feedback aus möglichst vielen Quellen wieder in die Entwicklung zurückfließen sollten.
+Dieser Prozess wird mit dem oben gezeigten Schema optimiert und beginnt mit den ersten Zeilen Code in der Entwicklung.
+Sobald die ersten Features lokal getestet sind, können Sie in ein VCS gepusht werden.
+Dies löst die DevOps Pipeline aus, welche den neuen Code auf Sicherheitslücken, Testabdeckung, Richtlinien, Architektur und Lizenzen prüft.
+Alle hierbei gesammelten Informationen sollen den Entwicklern wieder als Feedback zur Verfügung stehen.
+Sollten hierbei keine kritischen Probleme gefunden werden, wird die Anwendung gebaut und für ein Deployment vorbereitet.
+Alle Fehler werden ebenfalls direkt als Feedback an die Entwickler zurückgegeben.
+Sobald die Anwendung gebaut wurde, wird sie in der DAST Stage aktiv auf Sicherheitslücken überprüft.
+Sollten unbehandelte Sicherheitslücken gefunden werden, werden diese ebenfalls als Feedback an die Entwickler zurückgegeben.
+Wenn nun keine Auffälligkeiten vorhanden sind, ist die Software bereit, je nach aktuellem Branch, auf die entsprechenden Umgebungen deployed zu werden, um sich schlussendlich noch das Feedback der Nutzer einholen zu können und den Prozess von vorne zu beginnen.

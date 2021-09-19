@@ -96,28 +96,47 @@ Mit lediglich drei essentiellen Variablen lässt sich ein vollständiger DAST Pr
 \paragraph{DAST\_WEBSITE} Diese Umgebungsvariable gibt an, unter welcher Adresse die zu testende Anwendung zu finden ist.
 Da das Deployment mit einem Docker Service gemacht wurde, reicht es hier den Hostname des Containers zu verwenden und das passende Protokoll und den passenden Port hinzuzufügen.
 \paragraph{DAST\_FULL\_SCAN\_ENABLED} Diese Variable entscheidet darüber, ob der ZAP Baseline Scan\cite{OWASPZAPBaseline} oder der ZAP Full Scan\cite{OWASPZAPFull} verwendet wird.
-Der Baseline Scan attackiert die Anwendung nicht aktiv und dauert nur wenige Minuten. Der Full Scan verwendet aktive Methoden und ist damit in der Lage deutlich mehr Sicherheitslücken zu finden.
+Der Baseline Scan attackiert die Anwendung nicht aktiv und dauert nur wenige Minuten.
+Der Full Scan verwendet aktive Methoden und ist damit in der Lage deutlich mehr Sicherheitslücken zu finden.
 Dies geschieht auf Kosten der Laufzeit und kann durchaus mehrere Minuten bis Stunden dauern, abhängig von der Größe der zu testenden Software.
 \paragraph{DAST\_BROWSER\_SCAN} Mit DAST\_BROWSER\_SCAN aktiviert verwendet GitLab einen Browser basierten Crawler, um ein möglichst realistisches Szenario bereits beim Crawlen der Website zu schaffen.
 
 \subsubsection{Anmeldung}
 
-Die Konfiguration mit den oben genannten Variablen kann allerdings nur Bereiche testen, die öffentlich zugänglich sind, da keine Authentifizerung erfolgt ist.
+Die Konfiguration mit den oben genannten Variablen kann allerdings nur Bereiche testen, die öffentlich zugänglich sind, da keine Authentifizierung erfolgt ist.
 In vielen Anwendungen würde hierbei also nicht viel mehr als ein \textit{Registrierungs-/Anmeldeformular} und eine \textit{Unauthorized Page} getestet werden.
 Daher ist es wichtig, dass der DAST Prozess sich auch in der Anwendung anmelden kann.
 Die Konfiguration dieser Anmeldung ist ebenfalls denkbar einfach und wird wieder über Umgebungsvariablen gesteuert.
 Diese werden nun im Folgenden beschrieben und schließen die Konfiguration der DAST stage ab.
 
 \paragraph{DAST\_AUTH\_URL}
-\paragraph{DAS\_USERNAME}
+Die Url zur Anmeldeseite, auf der Username und Password eingegeben werden können.
+\paragraph{DAST\_USERNAME}
+Der Username, mit den passenden Rechten und Links zu den gewünschten Seiten, die getestet werden sollen.
 \paragraph{DAST\_PASSWORD}
+Das Passwort für den Nutzer, der im \textit{DAST\_USERNAME} angegeben wurde.
 \paragraph{DAST\_USERNAME\_FIELD}
+Selektor für den Username Input.
+Dieser kann verschieden angegeben werden.
+Die mächtigste Möglichkeit ist einen CSS Selektor anzugeben.
+Dies dient dazu, dass mithilfe von Selenium ein Login stattfinden kann, um die Anwendung auch im angemeldeten Status zu testen.
 \paragraph{DAST\_PASSWORD\_FIELD}
+Selektor für den Passwort Input.
+Analog zu \textit{DAST\_USERNAME\_FIELD}.
 \paragraph{DAST\_SUBMIT\_FIELD}
+Selektor für den Input der die Anmeldung bestätigt und ausführt.
+Analog zu \textit{DAST\_USERNAME\_FIELD}.
 \paragraph{DAST\_EXCLUDE\_URLS}
+Hier werden URLs angegeben welche nicht im Scan beachtet werden sollen.
+Hier sollte die Logout Seite angegeben werden, da es sonst passieren kann, dass der Test den Nutzer ausloggt bevor alle Tests abgeschlossen werden konnten.
 \paragraph{DAST\_AUTH\_VERIFICATION\_URL}
+Diese Url dient dazu, zu überprüfen, ob die Anmeldung erfolgreich war.
+Hier sollte also die Url angegeben werden, auf die nach dem Login weitergeleitet wird.
 \paragraph{DAST\_AUTH\_VERIFICATION\_SELECTOR}
+Dieser Selektor hat die selbe Funktionalität wie die \textit{DAST\_AUTH\_VERIFICATION\_URL}, allerdings auf Ebene einzelner HTML elemente im DOM.
+Die Funktionsweise ist analog zum \textit{DAST\_USERNAME\_FIELD}.
 \paragraph{DAST\_AUTH\_REPORT}
+Wenn diese Option auf "true" gesetzt ist wird ein erweiterter Report ausgegeben, der speziell beim Debugging eines fehlschlagenden Logins sehr nützlich sein kann.
 
 \subsection{Vollständige DAST Konfiguration für GitLab CI}
 
