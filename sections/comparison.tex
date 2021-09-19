@@ -1,0 +1,49 @@
+\section{Vergleich zwischen Burp Suite, OWASP ZAP und GitLab für den Einsatz im DAST}\label{sec:vergleich-zwischen-burp-suite-owasp-zap-und-gitlab-für-den-einsatz-im-dast}
+\subsection{Burp Suite}
+
+\begin{quote}
+    Burp Suite Professional is the web security tester's toolkit of choice.
+    Use it to automate repetitive testing tasks - then dig deeper with its expert-designed manual and semi-automated security testing tools.
+    Burp Suite Professional can help you to test for OWASP Top 10 vulnerabilities - as well as the very latest hacking techniques.\cite{BurpSuiteProfessional}
+\end{quote}
+
+Mit diesen Worten beschreibt Portswigger deren Tool Burp Suite, eines der größten, bekanntesten und ohne Frage besten Frameworks, wenn es um das Thema Anwendungssicherheit geht.
+Allerdings kommt mit großer Popularität und großer Funktionalität meistens auch ein großer Preisfaktor ins Spiel.
+Bei Burp Suite wird hierbei in zwei unterschiedliche Preismodelle untergliedert.
+Burp Suite Community Edition und Burp Suite Professional.
+Burp Suite Community Edition ist kostenfrei, während Burp Suite Professional für 349€ pro Jahr zu erwerben ist.
+
+Burp Suite bietet alle Features, die man von einem Tool zum dynamic application security testing erwarten kann und sollte.
+Besonders relevant sind hier die in den OWASP TOP 10\cite{OWASPTopTen} gelisteten Sicherheitslücken, welche alle von Burp Suite gefunden werden können.
+
+\subsection{OWASP ZAP}
+
+\begin{quote}
+The world’s most widely used web app scanner.
+Free and open source.
+Actively maintained by a dedicated international team of volunteers.\cite{ZAPHomepage}
+\end{quote}
+
+Diese Beschreibung von ZAP bringt es gut auf den Punkt.
+ZAP ist ein Open Source Projekt, welches von vielen Entwicklern weltweit kostenlos zur Verfügung gestellt wird.
+Daraus entstehen auch durchaus Nachteile, wie zum Beispiel eine relativ kleine Dokumentation, vor Allem im Vergleich zu Burp Suite.
+Das Basisfeatureset ist bei OWASP ZAP allerdings nahezu identisch, wie bei Burp Suite.
+Dennoch ist Burp Suite in der Erkennung einiger Sicherheitslücken, sowie der Abdeckung durchaus noch überlegen gegenüber dem Community Tool ZAP.\cite{teamBurpSuiteVs2021}
+
+\subsection{GitLab}
+
+GitLab selbst unterstützt keinerlei DAST Funktionalität.
+Allerdings stellt GitLab ab dem Ultimate Tier eine nahtlose Integration zu OWASP ZAP zur Verfügung.
+Diese ermöglicht es die volle Funktionalität von ZAP in wenigen Zeilen in eine GitLab CI Pipeline zu integrieren.
+Hierin liegt auch die Stärke von GitLab im Bereich DAST.
+Bei der Konfiguration von Tools wie Burp Suite oder ZAP werden oft Experten benötigt, was mit einem hohen Kostenaufwand verbunden ist.
+GitLab CI ermöglicht es mit geringen Mehrkosten eine solche Pipeline aufzusetzen, zu konfigurieren und eine hohe Application Security gewährleisten zu können.
+Allerdings ist GitLab Ultimate mit \$1188 USD pro Jahr pro Nutzer ebenfalls kein billiges Tool.
+Aufgrund der vielseitigkeit setzen bereits viele Unternehmen auf GitLab aus anderen Gründen und können daher GitLabs DAST Anbindung mehrkostenfrei nutzen.
+Besonders in diesem Fall empfiehlt sich die Verwendung von GitLab CI in einer DAST Pipeline.
+
+\subsection{Fazit}
+
+Obwohl Burp Suite einen geringfügig größeren Funktionsumfang hat bietet ZAP mit einer Open Source Lösung eine würdige Alternative.
+Mit der Einfachheit in der Konfiguration von GitLab kann allerdings keines der beiden Tools mithalten.
+Da in dem Seminar bereits mit GitLab gearbeitet wurde hat sich die Verwendung der integrierten Tools offensichtlich angeboten, weshalb die Entscheidung bei der Auswahl des Tools auf GitLab CI gefallen ist.

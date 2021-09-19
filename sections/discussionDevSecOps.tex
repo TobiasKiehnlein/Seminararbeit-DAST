@@ -144,10 +144,11 @@ Alle Vorteile von GitHub Flow gegenüber git-flow bleiben allerdings erhalten, w
 Pipelines bilden die Grundlage in der Umsetzung eines erfolgreichen DevSecOps Projekts.
 Grundsätzlich lassen sich Pipelines in drei Bereiche unterteilen: Testen, Bauen und Deployen.
 Allerdings lassen sich diese Schritte nicht immer einfach nacheinander ausführen, da Schritte im Test zum Beispiel von einem Build oder Deployment abhängen können, genauso wie ein Deployment von einem Test und offensichtlich einem Build abhängen kann.
-Daher werden die einzelnen Schritte im Folgenden nacheinander betrachtet und analysiert.
+Daher werden die wichtigsten Schritte im Folgenden nacheinander einzeln betrachtet und analysiert.
+Aufgrund der teils hohen Komplexität einiger Schritte werden alle einzelnen Schritte nur angeschnitten, um einen Überblick über die nötigen Funktionen einer guten Pipeline zu erhalten.
 Diese sind chronologisch so angeordnet, wie sie auch im finalen Prozess vorhanden sein sollten.
 
-\subsubsection{Coding Guidelines/Code Architecture}\label{subsec:codingGuidelines/codeArchitecture}
+\subsubsection{Coding Richtlinien/Code Architektur}\label{subsubsec:codingguidelines/codearchitecture}
 
 Nachdem nun klar ist, in welcher Struktur der Code im VCS vorzufinden ist, gilt es nun die einzelnen Schritte in der Pipeline zu betrachten.
 Hierbei sollte mit den Syntax- und Architekturtests begonnen werden.
@@ -189,8 +190,22 @@ Die Entwicklercommunity kann diese zwar häufig relativ schnell finden und ident
 Daher ist ein wichtiger Faktor einer guten Pipeline
 
 \paragraph{Welche Abhängigkeiten existieren zu anderen Schritten?}
+
+Auch hier lässt sich feststellen, dass keine Abhängigkeiten außer zum Source Code selbst existieren.
+Deshalb lässt sich dieser Schritt zusammen mit den vorher genannten parallel ausführen.
+
 \paragraph{Wie hoch ist die Zeitkomplexität des Jobs?}
+
+Die Zeitkomplexität ist relativ gering, wenn man einen der gängigen Paketmanager verwendet. (z.B.\ npm, pip)
+Viele Tools zur Bewertung von Paketen verwenden eine Datenbank, in der sie sehr schnell überprüfen können, ob für die angegebene Version Sicherheitslücken gemeldet sind.
+
 \paragraph{Wann muss dieser Job ausgeführt werden?}
+
+Wie bereits zuvor ist die geringe Zeitkomplexität ein Grund, weshalb sich dieser Schritt gut häufig ausführen lässt.
+Zudem existieren keine weiteren Abhänigkeiten, weshalb der Job auch gut parallel ausgeführt werden kann.
+Selbst wenn dies aber nicht der Fall wäre sollte man diese Stufe dennoch bei jedem Commit ausführen und überprüfen ob neu hinzugekommene Pakete bekannte Schwachstellen enthalten.
+Allerdings ist dies leider noch nicht vollständig ausreichend, da Sicherheitslücken auch später entdeckt werden können.
+Daher empfiehlt es sich, diese Tests je nach aktuellem Entwicklungsstand und der Häufigkeit von commits in einem Scheduled Lauf der Pipeline ebenfalls druchzuführen, um neue Sicherheitslücken möglichst schnell zu finden, auch wenn an dem Projekt nicht mehr aktiv entwickelt wird.
 
 \subsubsection{Test-/Codeabdeckung}
 \paragraph{Welche Abhängigkeiten existieren zu anderen Schritten?}
@@ -198,6 +213,14 @@ Daher ist ein wichtiger Faktor einer guten Pipeline
 \paragraph{Wann muss dieser Job ausgeführt werden?}
 
 \subsubsection{Lizenzüberprüfung}
+
+Die Aufgabe der Lizenzüberprüfung scheint zunächst simpel und einleuchtend, stellt sich aber bei näherer Betrachtung als überraschend komplex dar.
+Die Komplexität vieler Lizenzen macht es Entwicklern oft nicht leicht zu entscheiden, welche Pakete problemfrei verwendet werden dürfen oder nicht.
+Oftmals werden auch Abhängigkeiten von Abhängigkeiten, etc. zum Problem.
+Hierbei eine gute Übersicht zu behalten ist ohne dem richtigen Tooling nahezu unmöglich.
+Außerdem liegt die Entscheidung der erlaubten Lizenzen oftmals nicht in der Hand der Entwickler, sondern einer gezielten Rechtsabteilung.
+Mithilfe einer guten Lizenzprüfung kann man hier also eine Brücke schlagen für eine nahtlose Kooperation zwischen Entwicklern und rechtlichen Lizenzaspekten, ohne dass Entwickler einen tiefen Einblick in Lizensierungsmodelle benötigen und ohne, dass die Rechtsabteilung irgendwelche Informationen über Softwareentwicklung benötigt, um eine korrekte Lizenzierung validieren zu können.
+
 \paragraph{Welche Abhängigkeiten existieren zu anderen Schritten?}
 \paragraph{Wie hoch ist die Zeitkomplexität des Jobs?}
 \paragraph{Wann muss dieser Job ausgeführt werden?}
@@ -212,12 +235,11 @@ Daher ist ein wichtiger Faktor einer guten Pipeline
 \paragraph{Wie hoch ist die Zeitkomplexität des Jobs?}
 \paragraph{Wann muss dieser Job ausgeführt werden?}
 
-\subsubsection{Code Review}
-\paragraph{Welche Abhängigkeiten existieren zu anderen Schritten?}
-\paragraph{Wie hoch ist die Zeitkomplexität des Jobs?}
-\paragraph{Wann muss dieser Job ausgeführt werden?}
 
-\subsubsection{Application Monitoring}
-\paragraph{Welche Abhängigkeiten existieren zu anderen Schritten?}
-\paragraph{Wie hoch ist die Zeitkomplexität des Jobs?}
-\paragraph{Wann muss dieser Job ausgeführt werden?}
+\subsubsection{Visualisierung eines optimalen DevSecOps Prozesses}
+\begin{figure}[H]
+    \includegraphics[width=0.8\textwidth]{img/DevOpsWorkflow}
+    \centering
+    \caption{Graphische Darstellung eines optimalen DevSecOps Prozesses}
+    \label{fig:devSecOpsProcess}
+\end{figure}

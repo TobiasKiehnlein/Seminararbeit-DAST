@@ -29,6 +29,9 @@
 \usepackage{csquotes}
 \usepackage{cleveref}
 \usepackage{subfiles}                   % load last
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
 
 \pagestyle{scrheadings}                  % Kopfzeilen nach scr-Standard
 
@@ -70,17 +73,10 @@
     \newpage
     \pagestyle{headings}
 
-    \subfile{sections/gloassary.tex}
     \subfile{sections/introduction.tex}
     \subfile{sections/discussionDevSecOps.tex}
-
-    \section{Vergleich zwischen Burp Suite, OWASP ZAP und GitLab für den Einsatz im DAST}\label{sec:vergleich-zwischen-burp-suite-owasp-zap-und-gitlab-für-den-einsatz-im-dast}
-    \subsection{Burp Suite}
-    \subsection{OWASP ZAP}
-    \subsection{GitLab}
-    \subsection{Fazit}
-
-    \section{GitLab CI im Einsatz als DAST Tool}
+    \subfile{sections/comparison.tex}
+    \subfile{sections/GitLab.tex}
 
     \newpage
     \printbibliography[heading=bibintoc]
