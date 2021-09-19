@@ -18,7 +18,7 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v2
       - name: pdflatex main
-        uses: dante-ev/latex-action@latest
+        uses: dante-ev/latex-action@edge
         with:
           root_file: main.tex
           compiler: pdflatex
@@ -30,7 +30,7 @@ jobs:
           compiler: biber
           args: main
       - name: pdflatex main
-        uses: dante-ev/latex-action@latest
+        uses: dante-ev/latex-action@edge
         with:
           root_file: main.tex
           compiler: pdflatex

@@ -1,9 +1,9 @@
-\section{GitLab CI im Einsatz als DAST Tool}
+\section{GitLab CI im Einsatz als DAST Tool}\label{sec:gitlab-ci-im-einsatz-als-dast-tool}
 
 Die Integration einer DAST Stage in GitLab CI wurde von den Entwicklern so leicht wie möglich gemacht.
 Wie bei jedem Sicherheitstest auf einer laufenden Anwendung muss diese laufen.
 Dabei kann man im Fall von GitLab stark von Containerization profitieren.
-GitLab bietet die Möglichkeit, zuvor gebaute Container in der eigenen Container registry zu speichern und später im DAST Job als sog. Service einzubinden.
+GitLab bietet die Möglichkeit, zuvor gebaute Container in der eigenen Container registry zu speichern und später im DAST Job als sog. Service einzubinden\footnote{Die Grundlagen im Umgang mit Docker und Container Registries werden im Folgenden vorausgesetzt. Nähere Informationen können \href{https://docs.docker.com/get-started/}{hier (Get Started)} und \href{https://docs.docker.com/registry/}{hier (Container Registries)} nachgelesen werden.}.
 Diese Services laufen parallel zu dem Container, der für die aktuelle Stage gestartet wird und wird automatisch im selben Docker Netzwerk gestartet, sodass eine einfache Kommunikation zwischen den verschiedenen Containern möglich ist.
 Somit wird keine dedizierte Testumgebung benötigt, die bei jedem Einsatz eines DAST Tools wieder zurückgesetzt wird.
 Dennoch sind die Ergebnisse vergleichbar mit einem realen Szenario, vorausgesetzt die Anwendung wird später in den gleichen Containern deployed, was heutzutage aber meistens der Fall sein sollte.
@@ -28,7 +28,7 @@ echo $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGIST
 \end{minted}
 ausgeführt.
 
-Hierbei werden zwei Umgebungsvariablen verwendet, welche von GitLab CI automatisch zur Verfügung gestellt werden. \cite{PredefinedVariablesReference}
+Hierbei werden zwei Umgebungsvariablen verwendet, welche von GitLab CI automatisch zur Verfügung gestellt werden.~\cite{PredefinedVariablesReference}
 \begin{itemize}
     \item \textbf{CI\_JOB\_TOKEN:} Dies ist ein einmaliger Token der für den Job generiert wurde und als Passwort in der integrierten Container registry verwendet werden kann, solange der Job läuft.
     \item \textbf{CI\_REGISTRY:} Dies ist die Adresse der integrierten Container Registry von GitLab
