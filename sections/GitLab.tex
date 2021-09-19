@@ -137,7 +137,7 @@ Dieser Selektor hat die selbe Funktionalität wie die \textit{DAST\_AUTH\_VERIFI
 Die Funktionsweise ist analog zum \textit{DAST\_USERNAME\_FIELD}.
 \paragraph{DAST\_AUTH\_REPORT}
 Wenn diese Option auf "true" gesetzt ist wird ein erweiterter Report ausgegeben, der speziell beim Debugging eines fehlschlagenden Logins sehr nützlich sein kann.
-
+\newpage
 \subsection{Vollständige DAST Konfiguration für GitLab CI}
 
 Kombiniert sieht die fertige vollständige Konfiguration für eine DAST Pipeline in GitLab CI also wie Folgt aus:
@@ -145,7 +145,6 @@ Kombiniert sieht die fertige vollständige Konfiguration für eine DAST Pipeline
 stages:
   - deploy
   - dast
-
 include:
   - template: DAST.gitlab-ci.yml
 
