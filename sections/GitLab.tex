@@ -16,16 +16,16 @@ Die erste Stage enthält das Bauen und Hochladen eines Dockercontainers, der in 
 \subsection{Build und Upload eines Dockercontainers in die GitLab Registry}
 
 Der erste Schritt, um die Dockercontainer in GitLab CI bauen zu können ist, Docker im Container zur Verfügung zu stellen.
-Dazu wird das offizielle %\mintinline{sh}{docker:dind}\footnote{dind steht für \textit{Docker in Docker} und stellt eine und sichere Möglichkeit dar, Docker in einer isolierten Umgebung zu verwenden.} Docker image verwendet, welches als service in die Pipeline eingebunden wird.
+Dazu wird das offizielle \mintinline{sh}{docker:dind}\footnote{dind steht für \textit{Docker in Docker} und stellt eine und sichere Möglichkeit dar, Docker in einer isolierten Umgebung zu verwenden.} Docker image verwendet, welches als service in die Pipeline eingebunden wird.
 
-Zudem wird der Job in die richtige Stage eingeordnet, was mit %\mintinline{yaml}{stage: deploy} geschieht.
+Zudem wird der Job in die richtige Stage eingeordnet, was mit \mintinline{yaml}{stage: deploy} geschieht.
 
 Nun stehen alle nötigen Informationen zur Verfügung um Dockerimages bauen und hochladen zu können.
 Der erste Schritt hierbei ist die Anmeldung in einer Container Registry, in der das Image hochgeladen werden soll.
 Dazu wird in der Pipeline als erstes der Befehl
-%\begin{minted}{sh}
-echo \$CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin \CI_REGISTRY
-%\end{minted}
+\begin{minted}{sh}
+echo .DOLLAR.CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin \CI_REGISTRY
+\end{minted}
 ausgeführt.
 
 Hierbei werden zwei Umgebungsvariablen verwendet, welche von GitLab CI automatisch zur Verfügung gestellt werden.~\cite{PredefinedVariablesReference}
@@ -38,9 +38,9 @@ Im nächsten Schritt wird nun das letzte bestehende docker image aus der registr
 Dies ist dafür da, um die Möglichkeiten von Docker caches zu nutzen und unnötige komplexe Schritte vermeiden zu können, kann aber auch weggelassen werden, wenn dieses Feature nicht erwünscht ist, oder kein Zeitgewinn dadurch in der Pipeline entsteht.
 
 Nun muss das Dockerfile nur noch mit
-%\begin{minted}{sh}
-docker build --tag \$CI_REGISTRY_IMAGE:\$CI_COMMIT_SHA --tag \$CI_REGISTRY_IMAGE:latest .
-%\end{minted}
+\begin{minted}{sh}
+docker build --tag .DOLLAR.CI_REGISTRY_IMAGE:.DOLLAR.CI_COMMIT_SHA --tag .DOLLAR.CI_REGISTRY_IMAGE:latest .
+\end{minted}
 
 gebaut und getagged werden.
 Es empfielt sich die Images zusätzlich zum \textit{latest} Tag auch mit dem Hash des aktuellen Commits zu taggen, um im Fehlerfall stets eine Verbindung zwischen gebautem Docker image und commit herstellen zu können.
@@ -50,10 +50,10 @@ Hierfür werden erneut zwei Umgebungsvariablen verwendet:\cite{PredefinedVariabl
     \item \textbf{CI\_COMMIT\_SHA:} Der Hash des commits auf dem die Pipeline läuft
 \end{itemize}
 
-Nun müssen die fertig gebauten Images nur noch mit %\mintinline{sh}{docker push} hochgeladen werden.
+Nun müssen die fertig gebauten Images nur noch mit \mintinline{sh}{docker push} hochgeladen werden.
 Die fertige deploy stage sieht nun also so aus:
 
-%\begin{minted}{yaml}
+\begin{minted}{yaml}
 deploy:
   services:
   - name: docker:dind
@@ -61,30 +61,30 @@ deploy:
   image: docker:19.03.5
   stage: deploy
   script:
-    - echo \$CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin \$CI_REGISTRY
-    - docker pull \$CI_REGISTRY_IMAGE:latest || true
-    - docker build --tag \$CI_REGISTRY_IMAGE:\$CI_COMMIT_SHA --tag \$CI_REGISTRY_IMAGE:latest .
-    - docker push \$CI_REGISTRY_IMAGE:\$CI_COMMIT_SHA
-    - docker push \$CI_REGISTRY_IMAGE:latest
+    - echo .DOLLAR.CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin .DOLLAR.CI_REGISTRY
+    - docker pull .DOLLAR.CI_REGISTRY_IMAGE:latest || true
+    - docker build --tag .DOLLAR.CI_REGISTRY_IMAGE:.DOLLAR.CI_COMMIT_SHA --tag .DOLLAR.CI_REGISTRY_IMAGE:latest .
+    - docker push .DOLLAR.CI_REGISTRY_IMAGE:.DOLLAR.CI_COMMIT_SHA
+    - docker push .DOLLAR.CI_REGISTRY_IMAGE:latest
 
-%\end{minted}
+\end{minted}
 
 \subsection{Konfiguration der DAST Stage in GitLab CI}
 
 Der größte Teil der Konfiguration dieser Stage wird von einem GitLab Template eingefügt.\cite{DynamicApplicationSecurity}
 Dies ist wie bereits zuvor erwähnt auch der größte Vorteil von GitLab gegenüber anderen Tools.
 Das Einfügen des Templates ist denkbar einfach:
-%\begin{minted}{yaml}
+\begin{minted}{yaml}
 include:
   - template: DAST.gitlab-ci.yml
-%\end{minted}
+\end{minted}
 
 Nun muss nur noch das zuvor gebaute Docker Image als service in die Pipeline eingebunden werden:
-%\begin{minted}{yaml}
+\begin{minted}{yaml}
 services: # use services to link your app container to the dast job
-  - name: \$CI_REGISTRY_IMAGE:\$CI_COMMIT_SHA
+  - name: .DOLLAR.CI_REGISTRY_IMAGE:.DOLLAR.CI_COMMIT_SHA
     alias: flask_demo
-%\end{minted}
+\end{minted}
 
 Nachdem das Template und der Application Service eingefügt wurden lässt sich die restliche Stage über Umgebungsvariablen konfigurieren.
 Die dafür nötigen Variablen werden nun im Folgenden nacheinander erklärt.
@@ -141,7 +141,7 @@ Wenn diese Option auf "true" gesetzt ist wird ein erweiterter Report ausgegeben,
 \subsection{Vollständige DAST Konfiguration für GitLab CI}
 
 Kombiniert sieht die fertige vollständige Konfiguration für eine DAST Pipeline in GitLab CI also wie Folgt aus:
-%\begin{minted}{yaml}
+\begin{minted}{yaml}
 stages:
   - deploy
   - dast
@@ -150,7 +150,7 @@ include:
 
 variables:
   DAST_WEBSITE: http://flask_demo:5000
-  DAST_AUTH_URL: \$DAST_WEBSITE/login
+  DAST_AUTH_URL: .DOLLAR.DAST_WEBSITE/login
   DAST_USERNAME: "example@mail.com"
   DAST_PASSWORD: "password" # use custom, masked GitLab variable here
   # a selector describing the element containing the username field at the sign-in HTML form
@@ -162,10 +162,10 @@ variables:
   DAST_SUBMIT_FIELD: "css:button[type='submit']"
   # optional, URLs to skip during the authenticated scan; comma-separated,
   # no spaces in between
-  DAST_EXCLUDE_URLS: "\$DAST_WEBSITE/logout"
+  DAST_EXCLUDE_URLS: ".DOLLAR.DAST_WEBSITE/logout"
   # optional, used to verify authentication is successful by expecting this URL once the
   # login form has been submitted
-  DAST_AUTH_VERIFICATION_URL: "\$DAST_WEBSITE/profile"
+  DAST_AUTH_VERIFICATION_URL: ".DOLLAR.DAST_WEBSITE/profile"
   # optional, used to verify authentication is successful by expecting a selector to be
   #present on the page once the login form has been submitted
   DAST_AUTH_VERIFICATION_SELECTOR: "id:greeting"
@@ -176,7 +176,7 @@ variables:
   DAST_BROWSER_SCAN: "true"
 
 services: # use services to link your app container to the dast job
-  - name: \$CI_REGISTRY_IMAGE:\$CI_COMMIT_SHA
+  - name: .DOLLAR.CI_REGISTRY_IMAGE:.DOLLAR.CI_COMMIT_SHA
     alias: flask_demo
 
 deploy:
@@ -186,9 +186,9 @@ deploy:
   image: docker:19.03.5
   stage: deploy
   script:
-    - echo \$CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin \$CI_REGISTRY
-    - docker pull \$CI_REGISTRY_IMAGE:latest || true
-    - docker build --tag \$CI_REGISTRY_IMAGE:\$CI_COMMIT_SHA --tag \$CI_REGISTRY_IMAGE:latest .
-    - docker push \$CI_REGISTRY_IMAGE:\$CI_COMMIT_SHA
-    - docker push \$CI_REGISTRY_IMAGE:latest
-%\end{minted}
+    - echo .DOLLAR.CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin .DOLLAR.CI_REGISTRY
+    - docker pull .DOLLAR.CI_REGISTRY_IMAGE:latest || true
+    - docker build --tag .DOLLAR.CI_REGISTRY_IMAGE:.DOLLAR.CI_COMMIT_SHA --tag .DOLLAR.CI_REGISTRY_IMAGE:latest .
+    - docker push .DOLLAR.CI_REGISTRY_IMAGE:.DOLLAR.CI_COMMIT_SHA
+    - docker push .DOLLAR.CI_REGISTRY_IMAGE:latest
+\end{minted}
